@@ -4,6 +4,8 @@ import time
 import numpy as np
 import os
 import shutil
+
+
 def convert_time_to_minutes(time):
 
     hours, minutes = time.split(':')
@@ -139,3 +141,4 @@ class Visualisation:
 
 instance = Visualisation()
 instance.mean_time_within_timeframe()
+instance.sort()
