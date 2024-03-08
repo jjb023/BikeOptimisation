@@ -3,7 +3,6 @@ import pandas as pd
 import numpy as np
 from collections import defaultdict
 import time
-
 def convert_minutes_to_hours(minutes):
 
     hours = str(minutes // 60)
@@ -43,10 +42,8 @@ def journeys(stations, df, headers):
         position_in_matrix_of_start_station = column_to_station_id[start_station]
         position_in_matrix_of_end_station = column_to_station_id[end_station]
 
-        current_value = matrix[position_in_matrix_of_start_station][position_in_matrix_of_end_station]
-        new_value = current_value + 1
-        matrix[position_in_matrix_of_start_station][position_in_matrix_of_end_station] = new_value
-        matrix[position_in_matrix_of_end_station][position_in_matrix_of_start_station] = new_value
+        matrix[position_in_matrix_of_start_station][position_in_matrix_of_end_station] += 1
+        matrix[position_in_matrix_of_end_station][position_in_matrix_of_start_station] += 1
 
     use_metric = (np.sum(matrix), len(df.index), returning_journeys)
 
@@ -102,7 +99,7 @@ for sample in times.keys():
     store_results.append(matrix_to_append)
     validation_metrics[sample] = metrics
 
-for sample in validation_metrics:   
+for sample in validation_metrics:
     validate(sample, validation_metrics[sample])
 
 results = np.array(store_results)
