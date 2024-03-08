@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 from collections import defaultdict
 import time
+
 def convert_minutes_to_hours(minutes):
 
     hours = str(minutes // 60)
