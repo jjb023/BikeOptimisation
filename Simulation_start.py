@@ -14,9 +14,9 @@ for station, bikes in initial_bikes.items():
     G.add_node(station, bikes=bikes)
 
 # Simulate journeys for simplicity (this would be based on your data)
-timesteps = 100  # Total number of timesteps
-np.random.seed(0)  # For reproducibility
-checkouts = {station: np.random.randint(0, 47, size=timesteps) for station in stations}
+timesteps = 48  # Total number of timesteps
+np.random.seed(0)  
+checkouts = {station: np.random.randint(0, 40, size=timesteps) for station in stations}
 returns = {station: np.random.randint(0, 40, size=timesteps) for station in stations}
 
 # DataFrame to track the net number of bikes (optional, for visualization)
