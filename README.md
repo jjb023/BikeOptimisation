@@ -7,3 +7,7 @@
 ## Potential visuals
 - Average trips at each time of day with mean and standard deviation. (Normal vs tube station day)
 - Hourly routes (gif)
+
+## 15.03 Meeting
+- Demand: Difference going in and out with time
+- 
