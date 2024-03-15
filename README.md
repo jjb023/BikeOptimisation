@@ -9,5 +9,8 @@
 - Hourly routes (gif)
 
 ## 15.03 Meeting
-- Demand: Difference going in and out with time
+- Demand: Daily difference going in and out at each time step
+- Get model, predict demand, use demand to solve movement of bikes based on demand to minimise cost
+- use network to train rnn which predicts it, takes in t and predicts t+1
+- predict ahead of time what demand will be
 - 
