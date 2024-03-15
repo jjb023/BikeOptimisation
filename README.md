@@ -20,3 +20,14 @@
 - train neural network based on data from node to node - no weighting yet (will be distance)
 - RNN ignore connections - source to destination
 - how many bikes needed at each timestep
+
+## Features
+- Station Id
+- Bikes In
+- Bikes Out
+- Time of Day
+- Day of the week
+- Rainfall
+- Temperature
+
+- Output: Number of bikes at next time step at each station
