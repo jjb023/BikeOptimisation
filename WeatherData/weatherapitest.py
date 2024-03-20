@@ -4,7 +4,11 @@ import csv
 from io import StringIO
 import csv
 
-response = requests.request("GET", "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/london/2022-01-01/2022-01-31?unitGroup=metric&include=hours&elements=datetime,precip,temp&key=8WFP3BTMF64JYW9Q4TM7E6MQE&contentType=csv")
+joshapikey = "8WFP3BTMF64JYW9Q4TM7E6MQE"
+keeganapikey = "QBEDB6KFA2N6TT4XF6XTC63D6"
+
+
+response = requests.request("GET", "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/london/2022-03-01/2022-03-31?unitGroup=metric&include=hours&elements=datetime,precip,temp&key=QBEDB6KFA2N6TT4XF6XTC63D6&contentType=csv")
 
 # Check if the request was successful
 if response.status_code != 200:
