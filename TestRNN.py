@@ -7,14 +7,14 @@ from sklearn.preprocessing import MinMaxScaler
 from sklearn.metrics import mean_squared_error
 
 # Load your preprocessed data (assuming it's in a pandas DataFrame)
-# df = pd.read_csv('combined_10Jan-31Mar2016.csv')
+df = pd.read_csv('WeatherData/all_combined_weather_data.csv')
 
 # Define sequence length and number of features
 sequence_length = 10  # Length of the input sequence
 num_features = 1  # Number of features (e.g., demand for bikes)
 
 # Convert DataFrame to numpy array
-data = df['demand'].values.reshape(-1, 1)  # Assuming 'demand' is your target variable
+data = df['precip'].values.reshape(-1, 1)  # Assuming 'demand' is your target variable
 
 # Normalize data
 scaler = MinMaxScaler(feature_range=(0, 1))
