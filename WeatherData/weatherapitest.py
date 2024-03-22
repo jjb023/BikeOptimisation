@@ -8,7 +8,7 @@ joshapikey = "8WFP3BTMF64JYW9Q4TM7E6MQE"
 keeganapikey = "QBEDB6KFA2N6TT4XF6XTC63D6"
 tobyapikey = "GD2K6BGYF2W2ZFG2TAL4KW5Q8"
 
-response = requests.request("GET", "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/london/2022-06-01/2022-06-30?unitGroup=metric&include=hours&elements=datetime,precip,temp&key=GD2K6BGYF2W2ZFG2TAL4KW5Q8&contentType=csv")
+response = requests.request("GET", "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/london/2022-07-14/2022-07-24?unitGroup=metric&include=hours&elements=datetime,precip,temp&key=GD2K6BGYF2W2ZFG2TAL4KW5Q8&contentType=csv")
 
 # Check if the request was successful
 if response.status_code != 200:
