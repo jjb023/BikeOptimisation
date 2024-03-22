@@ -32,7 +32,7 @@ def write_csv(data, filename):
         csvwriter.writerows(data)
 
 # Combine and sort the data
-combined_data = combine_and_sort_data("WeatherData/7jul1-13weatherdata.csv", "WeatherData/7jul14-24weatherdata.csv")
+combined_data = combine_and_sort_data("WeatherData/7jul1-24weatherdata.csv", "WeatherData/7jul25-31weatherdata.csv")
 
 # Write the combined and sorted data to a new CSV file
 write_csv(combined_data, "WeatherData/combined_weather_data.csv")
