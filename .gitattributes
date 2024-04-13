@@ -1,2 +1,4 @@
 Net_bikes_per_time_step_full_year.csv filter=lfs diff=lfs merge=lfs -text
 Net_bikes_per_time_step_2022.csv filter=lfs diff=lfs merge=lfs -text
+CleaningNetBikeData/sorted_data.csv filter=lfs diff=lfs merge=lfs -text
+CleaningNetBikeData/sorted_data_2023.csv filter=lfs diff=lfs merge=lfs -text
