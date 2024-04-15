@@ -9,7 +9,7 @@ josh2apikey = "MVCFF6BLN3768EXP73H794XLG"
 keeganapikey = "QBEDB6KFA2N6TT4XF6XTC63D6"
 tobyapikey = "GD2K6BGYF2W2ZFG2TAL4KW5Q8"
 
-response = requests.request("GET", "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/london/2023-03-01/2023-03-31?unitGroup=metric&include=hours&elements=datetime,precip,temp&key=8WFP3BTMF64JYW9Q4TM7E6MQE&contentType=csv")
+response = requests.request("GET", "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/london/2023-07-01/2023-07-31?unitGroup=metric&include=hours&elements=datetime,precip,temp&key=GD2K6BGYF2W2ZFG2TAL4KW5Q8&contentType=csv")
 
 # Check if the request was successful
 if response.status_code != 200:
@@ -26,7 +26,7 @@ csv_file = StringIO(csv_text)
 csv_reader = csv.reader(csv_file)
 
 # Create a new CSV file
-with open('WeatherData2023/4Apr23weatherdata.csv', 'w', newline='') as file:
+with open('WeatherData2023/7Jul23weatherdata.csv', 'w', newline='') as file:
   writer = csv.writer(file)
 
   # Write each row of the CSV data to the new file
