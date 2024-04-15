@@ -101,21 +101,21 @@ def train_model(model, train_loader, val_loader, criterion, optimizer, n_epochs=
 # Call to train the model
 train_model(model, train_loader, val_loader, criterion, optimizer)
 
-# Assuming X_test is your new unseen data already preprocessed and shaped correctly:
-# Convert X_test to a tensor if it's not already
-X_test_tensor = torch.tensor(X_test, dtype=torch.float32)
+# # Assuming X_test is your new unseen data already preprocessed and shaped correctly:
+# # Convert X_test to a tensor if it's not already
+# X_test_tensor = torch.tensor(X_test, dtype=torch.float32)
 
-# Set the model to evaluation mode
-model.eval()
+# # Set the model to evaluation mode
+# model.eval()
 
-# No gradient is needed to be computed:
-with torch.no_grad():
-    predictions = model(X_test_tensor)
+# # No gradient is needed to be computed:
+# with torch.no_grad():
+#     predictions = model(X_test_tensor)
 
-# Assuming you used a standard scaler, you might need to invert the scaling for actual use:
-predictions_np = predictions.numpy()  # Convert to numpy array if further processing is needed outside PyTorch
-actual_predictions = scaler.inverse_transform(predictions_np)  # Only if you've scaled your target variable
+# # Assuming you used a standard scaler, you might need to invert the scaling for actual use:
+# predictions_np = predictions.numpy()  # Convert to numpy array if further processing is needed outside PyTorch
+# actual_predictions = scaler.inverse_transform(predictions_np)  # Only if you've scaled your target variable
 
-# Now, `actual_predictions` contains the actual predicted values in their original scale.
-print("Predictions:", actual_predictions)
+# # Now, `actual_predictions` contains the actual predicted values in their original scale.
+# print("Predictions:", actual_predictions)
 
