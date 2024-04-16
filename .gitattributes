@@ -4,3 +4,5 @@ CleaningNetBikeData/sorted_data.csv filter=lfs diff=lfs merge=lfs -text
 CleaningNetBikeData/sorted_data_2023.csv filter=lfs diff=lfs merge=lfs -text
 WeatherData2023/combined_weather_bike_data.csv filter=lfs diff=lfs merge=lfs -text
 2019BikeData/Net_bikes_per_time_step_2019.csv filter=lfs diff=lfs merge=lfs -text
+CleaningNetBikeData2223/sorted_data.csv filter=lfs diff=lfs merge=lfs -text
+CleaningNetBikeData2223/sorted_data_2023.csv filter=lfs diff=lfs merge=lfs -text
