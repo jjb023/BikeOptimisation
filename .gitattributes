@@ -7,3 +7,4 @@ WeatherData2023/combined_weather_bike_data.csv filter=lfs diff=lfs merge=lfs -te
 CleaningNetBikeData2223/sorted_data.csv filter=lfs diff=lfs merge=lfs -text
 CleaningNetBikeData2223/sorted_data_2023.csv filter=lfs diff=lfs merge=lfs -text
 2019BikeData/SortedNetBikeData.csv filter=lfs diff=lfs merge=lfs -text
+2019BikeData/2019SortedNetBikeData.csv filter=lfs diff=lfs merge=lfs -text
