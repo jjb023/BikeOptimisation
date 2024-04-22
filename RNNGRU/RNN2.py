@@ -12,10 +12,13 @@ import torch.nn as nn
 from torch.utils.data import DataLoader, TensorDataset
 import torch.optim as optim
 
+
+import matplotlib.pyplot as plt
+from sklearn.metrics import mean_squared_error
+
 def load_data(sequence_length, column):
     df = pd.read_csv('2019BikeData/2019MergedBikeWeatherData.csv', index_col='Date', parse_dates=True)
-    print(df.columns)
-    df = df.between_time('08:00', '09:00')  # replace with your specific time
+    df = df.between_time('13:00', '14:00')  # replace with your specific time
     cols = [column, 'temp', 'precip']
     df = df[cols]
     df[column] = df[column].diff()  # calculate net change
@@ -29,9 +32,9 @@ def load_data(sequence_length, column):
         y.append(df_scaled[i+sequence_length, 0])  # predict the net change of the selected column
     return np.array(X), np.array(y)
 class GRUNet(nn.Module):
-    def __init__(self, input_dim, hidden_dim, output_dim, num_layers):
+    def __init__(self, input_dim, hidden_dim, output_dim, num_layers=2, dropout=0):
         super(GRUNet, self).__init__()
-        self.gru = nn.GRU(input_dim, hidden_dim, num_layers, batch_first=True)
+        self.gru = nn.GRU(input_dim, hidden_dim, num_layers, batch_first=True, dropout=dropout)
         self.fc = nn.Linear(hidden_dim, output_dim)
 
     def forward(self, x):
@@ -39,26 +42,53 @@ class GRUNet(nn.Module):
         x = self.fc(x[:, -1, :])
         return x
 
+
+
 class Trainer:
     def __init__(self, model, criterion, optimizer):
         self.model = model
         self.criterion = criterion
         self.optimizer = optimizer
+        self.best_loss = float('inf')
+        self.early_stop_counter = 0
+        self.train_losses = []  # store training losses
+        self.val_losses = []  # store validation losses
 
-    def train(self, train_loader, val_loader, n_epochs=50):
+    def train(self, train_loader, val_loader, n_epochs=50, patience=30):
         for epoch in range(n_epochs):
             self.model.train()
+            train_loss = 0
             for x_batch, y_batch in train_loader:
                 self.optimizer.zero_grad()
                 y_pred = self.model(x_batch)
+                y_batch = y_batch.unsqueeze(1)
                 loss = self.criterion(y_pred, y_batch)
                 loss.backward()
                 self.optimizer.step()
+                train_loss += loss.item()
+            self.train_losses.append(train_loss / len(train_loader))  # average training loss
 
             self.model.eval()
             with torch.no_grad():
                 valid_loss = sum(self.criterion(self.model(x_val), y_val) for x_val, y_val in val_loader) / len(val_loader)
+            self.val_losses.append(valid_loss.item())  # store validation loss
+            if valid_loss.item() < self.best_loss:
+                self.best_loss = valid_loss.item()
+                self.early_stop_counter = 0
+            else:
+                self.early_stop_counter += 1
+                if self.early_stop_counter >= patience:
+                    print(f'Stopping early at epoch {epoch+1}')
+                    break
             print(f'Epoch {epoch+1}, Validation Loss: {valid_loss.item()}')
+
+def plot_losses(trainer):
+    plt.plot(trainer.train_losses, label='Training loss')
+    plt.plot(trainer.val_losses, label='Validation loss')
+    plt.legend()
+    plt.show()
+
+
 
 def main(args):
     X, y = load_data(args.sequence_length, args.column)
@@ -70,12 +100,33 @@ def main(args):
     train_loader = DataLoader(train_data, batch_size=64, shuffle=True)
     val_loader = DataLoader(val_data, batch_size=64, shuffle=False)
 
-    model = GRUNet(args.input_dim, args.hidden_dim, args.output_dim, args.num_layers)
-    optimizer = optim.Adam(model.parameters(), lr=0.001)
+    model = GRUNet(args.input_dim, args.hidden_dim//2, args.output_dim, args.num_layers//2)
+    optimizer = optim.Adam(model.parameters(), lr=0.0001)
     criterion = nn.MSELoss()
 
     trainer = Trainer(model, criterion, optimizer)
     trainer.train(train_loader, val_loader, args.n_epochs)
+    plot_losses(trainer)
+
+def plot_results(y_true, y_pred):
+    plt.plot(y_true, label='True')
+    plt.plot(y_pred, label='Predicted')
+    plt.legend()
+    plt.show()
+
+def evaluate(model, test_loader):
+    model.eval()
+    y_true, y_pred = [], []
+    with torch.no_grad():
+        for x_test, y_test in test_loader:
+            y_pred.append(model(x_test).numpy())
+            y_true.append(y_test.numpy())
+    y_true = np.concatenate(y_true)
+    y_pred = np.concatenate(y_pred)
+    mse = mean_squared_error(y_true, y_pred)
+    print(f'Mean Squared Error: {mse}')
+    plot_results(y_true, y_pred)
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -85,7 +136,11 @@ if __name__ == "__main__":
     parser.add_argument('--output_dim', type=int, default=1)
     parser.add_argument('--num_layers', type=int, default=2)
     parser.add_argument('--n_epochs', type=int, default=50)
-    parser.add_argument('--sequence_length', type=int, default=50)
+    parser.add_argument('--sequence_length', type=int, default=100)
     args = parser.parse_args()
-
     main(args)
+
+
+
+
+
