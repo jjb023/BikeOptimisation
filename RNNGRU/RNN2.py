@@ -36,13 +36,14 @@ class GRUNet(nn.Module):
         super(GRUNet, self).__init__()
         self.gru = nn.GRU(input_dim, hidden_dim, num_layers, batch_first=True, dropout=dropout)
         self.fc = nn.Linear(hidden_dim, output_dim)
+        self.relu = nn.ReLU()
 
     def forward(self, x):
         x, _ = self.gru(x)
+        x = self.relu(x)
         x = self.fc(x[:, -1, :])
+
         return x
-
-
 
 class Trainer:
     def __init__(self, model, criterion, optimizer):
@@ -54,7 +55,7 @@ class Trainer:
         self.train_losses = []  # store training losses
         self.val_losses = []  # store validation losses
 
-    def train(self, train_loader, val_loader, n_epochs=50, patience=30):
+    def train(self, train_loader, val_loader, n_epochs=50, patience=10000):
         for epoch in range(n_epochs):
             self.model.train()
             train_loss = 0
@@ -134,8 +135,8 @@ if __name__ == "__main__":
     parser.add_argument('--input_dim', type=int, default=3)
     parser.add_argument('--hidden_dim', type=int, default=20)
     parser.add_argument('--output_dim', type=int, default=1)
-    parser.add_argument('--num_layers', type=int, default=2)
-    parser.add_argument('--n_epochs', type=int, default=50)
+    parser.add_argument('--num_layers', type=int, default=3)
+    parser.add_argument('--n_epochs', type=int, default=200)
     parser.add_argument('--sequence_length', type=int, default=100)
     args = parser.parse_args()
     main(args)
