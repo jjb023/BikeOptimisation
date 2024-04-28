@@ -18,7 +18,7 @@ from sklearn.metrics import mean_squared_error
 
 def load_data(sequence_length, column):
     df = pd.read_csv('2019BikeData/2019MergedBikeWeatherData.csv', index_col='Date', parse_dates=True)
-    df = df.between_time('13:00', '14:00')  # replace with your specific time
+    df = df.between_time('17:00', '17:30')  # replace with your specific time
     cols = [column, 'temp', 'precip']
     df = df[cols]
     df[column] = df[column].diff()  # calculate net change
@@ -108,6 +108,9 @@ def main(args):
     trainer = Trainer(model, criterion, optimizer)
     trainer.train(train_loader, val_loader, args.n_epochs)
     plot_losses(trainer)
+    test_data = TensorDataset(torch.tensor(X_test, dtype=torch.float32), torch.tensor(y_test, dtype=torch.float32))
+    test_loader = DataLoader(test_data, batch_size=64, shuffle=False)
+    evaluate(model, test_loader)
 
 def plot_results(y_true, y_pred):
     plt.plot(y_true, label='True')
@@ -136,8 +139,8 @@ if __name__ == "__main__":
     parser.add_argument('--hidden_dim', type=int, default=20)
     parser.add_argument('--output_dim', type=int, default=1)
     parser.add_argument('--num_layers', type=int, default=3)
-    parser.add_argument('--n_epochs', type=int, default=200)
-    parser.add_argument('--sequence_length', type=int, default=100)
+    parser.add_argument('--n_epochs', type=int, default=40)
+    parser.add_argument('--sequence_length', type=int, default=50)
     args = parser.parse_args()
     main(args)
 
