@@ -91,10 +91,11 @@ def main(args):
     # Create a list of 15-minute intervals in a 24-hour period
     time_intervals = [datetime.strftime(datetime.strptime(str(hour), "%H") + timedelta(minutes=15 * i), "%H:%M") for hour in range(24) for i in range(4)]
 
-    # Create a DataFrame to store the results
-    results_df = pd.DataFrame(index=time_intervals, columns=df.columns)
 
-    for day_of_week in range(1):  # loop over each day of the week
+
+    for day_of_week in range(7):  # loop over each day of the week
+        # Create a DataFrame to store the results for the current day
+        results_df = pd.DataFrame(index=time_intervals, columns=df.columns)
         for time_interval in time_intervals:  # loop over each 15-minute interval
             # Load the data for the current day of the week and time interval
             X, y = load_data(args.sequence_length, day_of_week, time_interval, (datetime.strptime(time_interval, "%H:%M") + timedelta(minutes=15)).strftime("%H:%M"))
@@ -119,9 +120,8 @@ def main(args):
 
             # Store the results in the DataFrame
             results_df.loc[time_interval] = y_pred
-
-    # Write the results to a CSV file
-    results_df.to_csv('results.csv')
+        # Write the results for the current day to a CSV file
+        results_df.to_csv(f'WeekResults_Day{day_of_week}.csv')
 
 def plot_results(y_true, y_pred):
     plt.plot(y_true, label='True')
@@ -138,7 +138,7 @@ def evaluate(model, test_loader):
             y_true.append(y_test.numpy())
     y_true = np.concatenate(y_true, axis=0)
     y_pred = np.concatenate(y_pred, axis=0)
-    presnext = y_pred[-1]**2
+    presnext = 5*y_pred[-1]
     return presnext
 
 
