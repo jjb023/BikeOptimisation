@@ -6,7 +6,7 @@ df = pd.read_csv('predict_week_results.csv')
 
 
 # Choose the column to visualize
-column = '250'  # replace with your column name
+column = '154'  # replace with your column name
 
 # Plot the cumulative results for each day
 plt.figure(figsize=(10, 6))
