@@ -127,10 +127,10 @@ def main(args):
 
             # Store the results in the DataFrame
             results_df.loc[time_interval] = y_pred
-            break
+            #break
         # Write the results for the current day to a CSV file
-        # results_df.to_csv(f'WeekResults_Day{day_of_week}.csv')
-        break
+        results_df.to_csv(f'WeekResults_Day{day_of_week}.csv')
+        #break
 
 def plot_results(y_true, y_pred):
     plt.plot(y_true, label='True')
