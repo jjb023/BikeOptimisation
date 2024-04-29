@@ -8,7 +8,7 @@ df = pd.read_csv('results.csv')
 df_cumulative = df.cumsum()
 
 # Choose the column to visualize
-column = '70'  # replace with your column name
+column = '500'  # replace with your column name
 
 # Plot the data
 plt.figure(figsize=(10, 6))
