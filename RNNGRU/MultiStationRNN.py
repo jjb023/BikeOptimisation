@@ -82,6 +82,11 @@ class Trainer:
 def plot_losses(trainer):
     plt.plot(trainer.train_losses, label='Training loss')
     plt.plot(trainer.val_losses, label='Validation loss')
+    
+    plt.xlabel('Epoch')
+    plt.ylabel('Loss')
+    plt.title('Training and Validation Losses')
+    
     plt.legend()
     plt.show()
 
@@ -114,14 +119,18 @@ def main(args):
             trainer = Trainer(model, criterion, optimizer)
             trainer.train(train_loader, val_loader, args.n_epochs)
 
+            plot_losses(trainer)
+
             test_data = TensorDataset(torch.tensor(X_test, dtype=torch.float32), torch.tensor(y_test, dtype=torch.float32))
             test_loader = DataLoader(test_data, batch_size=64, shuffle=False)
             y_pred = evaluate(model, test_loader)
 
             # Store the results in the DataFrame
             results_df.loc[time_interval] = y_pred
+            break
         # Write the results for the current day to a CSV file
-        results_df.to_csv(f'WeekResults_Day{day_of_week}.csv')
+        # results_df.to_csv(f'WeekResults_Day{day_of_week}.csv')
+        break
 
 def plot_results(y_true, y_pred):
     plt.plot(y_true, label='True')
@@ -148,9 +157,9 @@ if __name__ == "__main__":
     parser.add_argument('--input_dim', type=int, default=811)
     parser.add_argument('--hidden_dim', type=int, default=20)
     parser.add_argument('--output_dim', type=int, default=811)
-    parser.add_argument('--num_layers', type=int, default=3)
-    parser.add_argument('--n_epochs', type=int, default=40)
-    parser.add_argument('--sequence_length', type=int, default=50)
+    parser.add_argument('--num_layers', type=int, default=2)
+    parser.add_argument('--n_epochs', type=int, default=250)
+    parser.add_argument('--sequence_length', type=int, default=20)
     args = parser.parse_args()
     main(args)
 
